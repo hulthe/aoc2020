@@ -1,6 +1,3 @@
-#![feature(test)]
-extern crate test;
-
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Tile {
     Tree,
@@ -31,7 +28,7 @@ impl Map<'_> {
         let match_char = |&c| match c {
             b'.' => Tile::Open,
             b'#' => Tile::Tree,
-            _ => panic!("invalid tile"),
+            t => panic!("invalid tile: '{}'", t as char),
         };
 
         let x = x % self.width;
@@ -54,12 +51,12 @@ fn check_slope(map: &Map, step_x: usize, step_y: usize) -> usize {
         .count()
 }
 
-fn part_1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let map = parse_map(input);
     check_slope(&map, 3, 1)
 }
 
-fn part_2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     let map = parse_map(input);
     [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
         .iter()
@@ -67,45 +64,19 @@ fn part_2(input: &str) -> usize {
         .product()
 }
 
-fn main() {
-    let input = include_str!("input");
-
-    println!("part1: {}", part_1(input));
-    println!("part2: {}", part_2(input));
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{parse_map, part_1, part_2};
-    use test::{black_box, Bencher};
+    use super::{part1, part2};
 
     #[test]
-    pub fn test_part_1() {
+    pub fn test_part1() {
         let input = include_str!("test-input");
-        assert_eq!(part_1(input), 7);
+        assert_eq!(part1(input), 7);
     }
 
     #[test]
-    pub fn test_part_2() {
+    pub fn test_part2() {
         let input = include_str!("test-input");
-        assert_eq!(part_2(input), 336);
-    }
-
-    #[bench]
-    pub fn bench_parse(b: &mut Bencher) {
-        let input = include_str!("input");
-        b.iter(|| parse_map(black_box(input)));
-    }
-
-    #[bench]
-    pub fn bench_part_1(b: &mut Bencher) {
-        let input = include_str!("input");
-        b.iter(|| part_1(black_box(input)));
-    }
-
-    #[bench]
-    pub fn bench_part_2(b: &mut Bencher) {
-        let input = include_str!("input");
-        b.iter(|| part_2(black_box(input)));
+        assert_eq!(part2(input), 336);
     }
 }

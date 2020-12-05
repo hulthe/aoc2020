@@ -1,15 +1,5 @@
-#![feature(str_split_once)]
-#![feature(test)]
-extern crate test;
-
-fn main() {
-    let input = include_str!("input");
-    println!("part 1: {}", part_1(input));
-    println!("part 2: {}", part_2(input));
-}
-
 #[derive(Debug, Default)]
-pub struct Passport<'a> {
+struct Passport<'a> {
     byr: Option<&'a str>,
     iyr: Option<&'a str>,
     eyr: Option<&'a str>,
@@ -20,7 +10,7 @@ pub struct Passport<'a> {
     cid: Option<&'a str>,
 }
 
-pub fn parse<'a>(input: &'a str) -> Vec<Passport<'a>> {
+fn parse<'a>(input: &'a str) -> Vec<Passport<'a>> {
     input
         .split("\n\n")
         .map(|batch| {
@@ -46,7 +36,7 @@ pub fn parse<'a>(input: &'a str) -> Vec<Passport<'a>> {
         .collect()
 }
 
-pub fn part_1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let passports = parse(input);
 
     passports
@@ -62,7 +52,7 @@ pub fn part_1(input: &str) -> usize {
         .count()
 }
 
-pub fn part_2(input: &str) -> usize {
+pub fn part2(input: &str) -> usize {
     let passports = parse(input);
 
     // each field has strict rules about what values are valid for automatic validation:
@@ -147,38 +137,19 @@ pub fn part_2(input: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::{parse, part_1, part_2};
-    use test::{black_box, Bencher};
+    use super::{part1, part2};
 
     #[test]
-    fn test_part_1() {
+    fn test_part1() {
         let input = include_str!("test-input");
-        let solution = part_1(input);
+        let solution = part1(input);
         assert_eq!(solution, 2);
     }
 
     #[test]
-    fn test_part_2() {
+    fn test_part2() {
         let input = include_str!("test-input2");
-        let solution = part_2(input);
+        let solution = part2(input);
         assert_eq!(solution, 4);
-    }
-
-    #[bench]
-    pub fn bench_parse(b: &mut Bencher) {
-        let input = include_str!("input");
-        b.iter(|| parse(black_box(input)));
-    }
-
-    #[bench]
-    pub fn bench_part_1(b: &mut Bencher) {
-        let input = include_str!("input");
-        b.iter(|| part_1(black_box(input)));
-    }
-
-    #[bench]
-    pub fn bench_part_2(b: &mut Bencher) {
-        let input = include_str!("input");
-        b.iter(|| part_2(black_box(input)));
     }
 }
