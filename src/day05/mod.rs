@@ -10,6 +10,7 @@ impl Seat {
         let mut ascii = [0u8; 10];
         ascii.clone_from_slice(line.as_bytes());
 
+        // interpret seat code as a binary number
         for i in 0..10 {
             ascii[i] = match ascii[i] {
                 b'B' | b'R' => b'1',
@@ -25,6 +26,7 @@ impl Seat {
 }
 
 pub fn part1(input: &str) -> usize {
+    // get the biggest occupied seat id
     input
         .lines()
         .map(|line| Seat::decode(line).id)
@@ -33,21 +35,23 @@ pub fn part1(input: &str) -> usize {
 }
 
 pub fn part2(input: &str) -> usize {
-    let mut seats: Vec<_> = input.lines().map(|line| Seat::decode(line)).collect();
-    seats.sort();
+    // all possible seat ids, and whether they are occupied
+    let mut seats_occupied = [false; 1 << 10];
 
-    let mut expected: usize = seats[0].id;
-    seats
+    // populate seats_occupied
+    input
+        .lines()
+        .map(|line| Seat::decode(line).id)
+        .for_each(|id| seats_occupied[id] = true);
+
+    seats_occupied
         .iter()
-        .filter_map(|seat| {
-            if seat.id != expected {
-                Some(expected)
-            } else {
-                expected = seat.id + 1;
-                None
-            }
-        })
-        .next()
+        .enumerate()
+        .filter(|(_, &occupied)| !occupied) // look for empty seats
+        .map(|(id, _)| id)
+        .filter(|id| seats_occupied[id + 1]) // check that the seats next to it are occupied
+        .filter(|id| seats_occupied[id - 1])
+        .next() // take the first match
         .unwrap()
 }
 
