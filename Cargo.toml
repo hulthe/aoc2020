@@ -8,6 +8,7 @@ edition = "2018"
 [dependencies]
 structopt="0.3"
 indicatif = "0.15"
+rayon = "1.5.0"
 
 [dependencies.aoc_helpers]
 git="https://github.com/hulthe/aoc_boiler.git"
