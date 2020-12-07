@@ -25,7 +25,9 @@ dependencies = [
  "aoc_helpers",
  "aoc_macro",
  "indicatif",
+ "lazy_static",
  "rayon",
+ "regex",
  "structopt",
 ]
 
