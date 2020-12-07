@@ -4,15 +4,15 @@ use std::collections::{HashMap, HashSet};
 
 lazy_static! {
     static ref LINE_RGX: Regex = Regex::new(
-        r#"(?xm)
-        ^(?P<parent>\w+\s\w+)
+        r#"(?x)
+        (?P<parent>\w+\s\w+)
         \sbags\scontain
-        (?P<contains>.+)$
+        (?P<contains>.+)
         "#
     )
     .unwrap();
     static ref CONTAINS_RGX: Regex = Regex::new(
-        r#"(?xm)
+        r#"(?x)
         \s(?P<num>\d+)
         \s(?P<child>\w+\s\w+)
         \sbag(?:s?)[\.,]
@@ -26,7 +26,7 @@ fn parse_into<'a, F>(input: &'a str, mut into: F)
 where
     F: FnMut(&'a str, usize, &'a str),
 {
-    LINE_RGX.captures_iter(input).for_each(|capture| {
+    for capture in input.lines().flat_map(|line| LINE_RGX.captures(line)) {
         let parent = capture.name("parent").unwrap().as_str();
         let contains = capture.name("contains").unwrap().as_str();
 
@@ -36,7 +36,7 @@ where
 
             into(parent, num, child);
         });
-    });
+    }
 }
 
 /// Child bags to all possible parent bags
@@ -44,7 +44,7 @@ pub fn parse1(input: &str) -> HashMap<&str, Vec<&str>> {
     let mut map = HashMap::new();
 
     parse_into(input, |parent, _num, child| {
-        map.entry(child).or_insert(vec![]).push(parent)
+        map.entry(child).or_insert(vec![]).push(parent);
     });
 
     map
