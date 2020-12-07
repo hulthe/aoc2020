@@ -5,17 +5,17 @@ use std::collections::{HashMap, HashSet};
 lazy_static! {
     static ref LINE_RGX: Regex = Regex::new(
         r#"(?x)
-        (?P<parent>\w+\s\w+)
-        \sbags\scontain
-        (?P<contains>.+)
+        (?P<parent> \w+ \s \w+ )
+        \s bags \s contain
+        (?P<contains> .+ )
         "#
     )
     .unwrap();
     static ref CONTAINS_RGX: Regex = Regex::new(
         r#"(?x)
-        \s(?P<num>\d+)
-        \s(?P<child>\w+\s\w+)
-        \sbag(?:s?)[\.,]
+        \s (?P<num> \d+ )
+        \s (?P<child> \w+ \s \w+ )
+        \s bag s? [\.,]
         "#,
     )
     .unwrap();
