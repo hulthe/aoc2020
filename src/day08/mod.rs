@@ -73,14 +73,12 @@ pub fn part1(input: &str) -> i32 {
 }
 
 pub fn part2(input: &str) -> i32 {
-    let mut instrs: Vec<_> = parse(input).map(|instr| (instr, false)).collect();
-    let mut acc = 0;
+    let instrs: Vec<_> = parse(input).map(|instr| (instr, false)).collect();
 
     // For every instruction, try replacing Nop with Jmp and vice versa to fix the program
     for i in (0..instrs.len()).rev() {
-        let prev: InstrKind = instrs[i].0.kind;
-
         // Try replacing instruction
+        let mut instrs = instrs.clone();
         instrs[i].0.kind = match instrs[i].0.kind {
             InstrKind::Jmp => InstrKind::Nop,
             InstrKind::Nop => InstrKind::Jmp,
@@ -88,16 +86,13 @@ pub fn part2(input: &str) -> i32 {
         };
 
         // Check if that fixed it
+        let mut acc = 0;
         if run(&mut instrs, &mut acc) {
+            // It worked! Return accumulator
             return acc;
         }
 
-        // It didn't work, restore instruction to what it was before
-        instrs[i].0.kind = prev;
-
-        // Reset accumulator and visited
-        acc = 0;
-        instrs.iter_mut().for_each(|(_, visited)| *visited = false);
+        // It didn't work, try again
     }
 
     panic!("no solution found");
