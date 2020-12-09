@@ -1,5 +1,6 @@
 #![feature(str_split_once)]
 #![feature(iterator_fold_self)]
+#![feature(min_const_generics)]
 #![feature(test)]
 
 extern crate test;
