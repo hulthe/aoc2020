@@ -5,12 +5,12 @@ enum Tile {
 }
 
 #[derive(Debug)]
-struct Map<'a> {
+pub struct Map<'a> {
     pub width: usize,
     pub map: &'a [u8],
 }
 
-fn parse_map<'a>(input: &'a str) -> Map<'a> {
+pub fn parse<'a>(input: &'a str) -> Map<'a> {
     let width = input
         .lines()
         .map(|line| line.chars().count())
@@ -24,7 +24,7 @@ fn parse_map<'a>(input: &'a str) -> Map<'a> {
 }
 
 impl Map<'_> {
-    pub fn get(&self, x: usize, y: usize) -> Option<Tile> {
+    fn get(&self, x: usize, y: usize) -> Option<Tile> {
         let match_char = |&c| match c {
             b'.' => Tile::Open,
             b'#' => Tile::Tree,
@@ -52,12 +52,12 @@ fn check_slope(map: &Map, step_x: usize, step_y: usize) -> usize {
 }
 
 pub fn part1(input: &str) -> usize {
-    let map = parse_map(input);
+    let map = parse(input);
     check_slope(&map, 3, 1)
 }
 
 pub fn part2(input: &str) -> usize {
-    let map = parse_map(input);
+    let map = parse(input);
     [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
         .iter()
         .map(|&(step_x, step_y)| check_slope(&map, step_x, step_y))

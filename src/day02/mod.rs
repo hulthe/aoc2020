@@ -1,11 +1,11 @@
-struct Policy<'a> {
+pub struct Policy<'a> {
     min: usize,
     max: usize,
     pattern: &'a str,
     password: &'a str,
 }
 
-fn parse(input: &str) -> impl Iterator<Item = Policy> {
+pub fn parse(input: &str) -> impl Iterator<Item = Policy> {
     input.lines().map(parse_line)
 }
 

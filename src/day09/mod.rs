@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-fn parse<'a>(input: &'a str) -> impl Iterator<Item = usize> + 'a {
+pub fn parse<'a>(input: &'a str) -> impl Iterator<Item = usize> + 'a {
     input.lines().map(|line| line.parse().unwrap())
 }
 

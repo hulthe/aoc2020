@@ -1,5 +1,5 @@
 #[derive(Debug, Default)]
-struct Passport<'a> {
+pub struct Passport<'a> {
     byr: Option<&'a str>,
     iyr: Option<&'a str>,
     eyr: Option<&'a str>,
@@ -10,7 +10,7 @@ struct Passport<'a> {
     cid: Option<&'a str>,
 }
 
-fn parse<'a>(input: &'a str) -> Vec<Passport<'a>> {
+pub fn parse<'a>(input: &'a str) -> Vec<Passport<'a>> {
     input
         .split("\n\n")
         .map(|batch| {

@@ -1,3 +1,5 @@
+pub fn parse(_input: &str) -> () {}
+
 pub fn part1(input: &str) -> usize {
     // Buffer to store results of each group
     let mut results = [0usize; 1024];

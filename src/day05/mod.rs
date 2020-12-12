@@ -25,13 +25,13 @@ impl Seat {
     }
 }
 
+pub fn parse<'a>(input: &'a str) -> impl Iterator<Item = usize> + 'a {
+    input.lines().map(|line| Seat::decode(line).id)
+}
+
 pub fn part1(input: &str) -> usize {
     // get the biggest occupied seat id
-    input
-        .lines()
-        .map(|line| Seat::decode(line).id)
-        .max()
-        .unwrap()
+    parse(input).max().unwrap()
 }
 
 pub fn part2(input: &str) -> usize {
@@ -39,10 +39,7 @@ pub fn part2(input: &str) -> usize {
     let mut seats_occupied = [false; 1 << 10];
 
     // populate seats_occupied
-    input
-        .lines()
-        .map(|line| Seat::decode(line).id)
-        .for_each(|id| seats_occupied[id] = true);
+    parse(input).for_each(|id| seats_occupied[id] = true);
 
     seats_occupied
         .iter()

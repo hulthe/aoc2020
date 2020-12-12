@@ -1,17 +1,17 @@
 #[derive(Clone, Copy, Debug)]
-enum InstrKind {
+pub enum InstrKind {
     Acc,
     Jmp,
     Nop,
 }
 
 #[derive(Clone, Copy, Debug)]
-struct Instr {
+pub struct Instr {
     kind: InstrKind,
     arg: i32,
 }
 
-fn parse<'a>(input: &'a str) -> impl Iterator<Item = Instr> + 'a {
+pub fn parse<'a>(input: &'a str) -> impl Iterator<Item = Instr> + 'a {
     input
         .lines()
         .flat_map(|line| line.split_once(' '))
