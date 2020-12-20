@@ -17,11 +17,6 @@ pub fn parse<'a>(input: &'a str) -> impl Iterator<Item = XY> + 'a {
         .map(|(coord, _)| coord)
 }
 
-fn dbg<T: std::fmt::Debug>(v: T) -> T {
-    println!("dbg: {:?}", v);
-    v
-}
-
 pub fn part1(input: &str) -> usize {
     let mut active: HashSet<XYZ> = parse(input).map(|[x, y]| [x, y, 0]).collect();
 
