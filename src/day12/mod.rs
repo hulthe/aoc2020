@@ -105,7 +105,10 @@ fn rotate_delta(mut x: i32, mut y: i32, mut degrees: i32) -> (i32, i32) {
     }
 
     for _ in 0..(degrees / 90) {
-        (x, y) = (y, -x);
+        // (x, y) = (y, -x);
+        let tmp = x;
+        x = y;
+        y = -tmp;
     }
 
     (x, y)
@@ -127,8 +130,16 @@ pub fn part2(input: &str) -> usize {
                 wx += dx * instruction.value;
                 wy += dy * instruction.value;
             }
-            Movement::Right => (wx, wy) = rotate_delta(wx, wy, instruction.value),
-            Movement::Left => (wx, wy) = rotate_delta(wx, wy, -instruction.value),
+            Movement::Right => {
+                let (new_wx, new_wy) = rotate_delta(wx, wy, instruction.value);
+                wx = new_wx;
+                wy = new_wy;
+            }
+            Movement::Left => {
+                let (new_wx, new_wy) = rotate_delta(wx, wy, -instruction.value);
+                wx = new_wx;
+                wy = new_wy;
+            }
             Movement::Forward => {
                 x += wx * instruction.value;
                 y += wy * instruction.value;

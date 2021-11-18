@@ -1,4 +1,5 @@
-pub fn parse(_input: &str) -> () {}
+#[allow(dead_code)]
+pub fn parse(_input: &str) {}
 
 pub fn part1(input: &str) -> usize {
     // Buffer to store results of each group

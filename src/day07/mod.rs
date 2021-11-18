@@ -21,7 +21,8 @@ lazy_static! {
     .unwrap();
 }
 
-pub fn parse(_input: &str) -> () {}
+#[allow(dead_code)]
+pub fn parse(_input: &str) {}
 
 /// Map every (parent, num, child) combination of the input into a closure
 fn parse_into<'a, F>(input: &'a str, mut into: F)
